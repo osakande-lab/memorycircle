@@ -1,9 +1,9 @@
-import { Directory, File, Paths } from 'expo-file-system';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {repository} from '@/data/repository';
+import type {PhotoInput} from '@/data/memory-repository';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Alert, Image, KeyboardAvoidingView,
   Platform,
@@ -19,46 +19,11 @@ import {
 export default function CreateMemoryScreen() {
   const [title, setTitle] = useState('');
   const [story, setStory] = useState('');
-  const [selectedPhotos, setSelectedPhotos] = useState<string[]>([]);
-  
-const copyPhotoToPermanentStorage = async (
-  uri: string,
-  index: number
-): Promise<string> => {
-  const photoDirectory = new Directory(
-    Paths.document,
-    'memorycircle-photos'
-  );
+  const [selectedPhotos, setSelectedPhotos] = useState<PhotoInput[]>([]);
+  const [isSaving,setIsSaving]=useState(false);
+  const [error,setError]=useState('');
+  const saving=useRef(false);
 
-  photoDirectory.create({
-    idempotent: true,
-    intermediates: true,
-  });
-
-  const source = new File(uri);
-
-  if (!source.exists) {
-    throw new Error('The selected photo could not be found.');
-  }
-
-  const extension = source.extension || '.jpg';
-
-  const destination = new File(
-    photoDirectory,
-    `photo-${Date.now()}-${index}${extension}`
-  );
-
-  await source.copy(destination);
-
-  if (!destination.exists) {
-    throw new Error('The photo could not be saved permanently.');
-  }
-
-  return destination.uri;
-};
-
-
-  
 const pickPhotos = async () => {
   try {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -73,10 +38,9 @@ const pickPhotos = async () => {
       return;
     }
 
-    const photos = result.assets.map((asset) => asset.uri);
+    const photos = result.assets.map((asset) => ({uri:asset.uri,mimeType:asset.mimeType,fileSize:asset.fileSize,width:asset.width,height:asset.height}));
 
-    console.log('Selected photo URIs:', photos);
-    console.log('Number selected:', photos.length);
+    setError('');
 
     setSelectedPhotos(photos);
   } catch (error) {
@@ -87,57 +51,14 @@ const pickPhotos = async () => {
 
   
   async function handleSave() {
-    if (!title.trim() || !story.trim()) {
-      Alert.alert(
-        'Missing information',
-        'Please enter a title and your memory.'
-      );
-      return;
-    }
-
-    try {
-      const existingData = await AsyncStorage.getItem('memorycircle_memories');
-      const memories = existingData ? JSON.parse(existingData) : [];
-      
-      const permanentPhotos: string[] = [];
-
-      for (const [index, uri] of selectedPhotos.entries()) {
-        const permanentUri = await copyPhotoToPermanentStorage(
-          uri,
-          index
-        );
-
-        permanentPhotos.push(permanentUri);
-      }
-
-
-      const newMemory = {
-        id: Date.now().toString(),
-        title: title.trim(),
-        story: story.trim(),
-        photos: permanentPhotos,
-        createdAt: new Date().toISOString(),
-      };
-
-      memories.unshift(newMemory);
-
-      await AsyncStorage.setItem(
-        'memorycircle_memories',
-        JSON.stringify(memories)
-      );
-
-      Alert.alert('Memory saved!', 'Your memory has been saved on this device.', [
-        {
-          text: 'OK',
-          onPress: () => router.back(),
-        },
-      ]);
-    } catch (error) {
-      Alert.alert('Could not save', 'Please try again.');
-      console.error('Error saving memory:', error);
-    }
+    if(saving.current)return;
+    saving.current=true;setIsSaving(true);setError('');
+    try{
+      await repository.create({title,story,photos:selectedPhotos});
+      router.back();
+    }catch(e){setError(e instanceof Error?e.message:'Could not save this memory. Please try again.');}
+    finally{saving.current=false;setIsSaving(false);}
   }
-
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -161,6 +82,7 @@ const pickPhotos = async () => {
             The little moments often become the biggest memories.
           </Text>
 
+          {!!error && <Text accessibilityRole="alert" style={{color:'#a02f24',marginBottom:16}}>{error}</Text>}
           <View style={styles.formCard}>
             <Text style={styles.label}>MEMORY TITLE</Text>
             <TextInput
@@ -169,6 +91,7 @@ const pickPhotos = async () => {
               placeholderTextColor="#99998F"
               value={title}
               onChangeText={setTitle}
+              accessibilityLabel="Memory title"
               maxLength={80}
             />
 
@@ -183,6 +106,7 @@ const pickPhotos = async () => {
               onChangeText={setStory}
               multiline
               textAlignVertical="top"
+              accessibilityLabel="Your story"
               maxLength={2000}
             />
             <Text style={styles.characterCount}>
@@ -209,10 +133,10 @@ const pickPhotos = async () => {
 
         {selectedPhotos.length > 0 && (
           <View style={styles.photoGrid}>
-            {selectedPhotos.map((uri, index) => ( 
+            {selectedPhotos.map((photo, index) => ( 
             <Image
-              key={`${uri}-${index}`}
-              source={{ uri }}
+              key={`${photo.uri}-${index}`}
+              source={{ uri: photo.uri }}
               style={styles.photoPreview}
               resizeMode="cover"
               onLoad={() => console.log('Preview loaded:', index)}
@@ -220,7 +144,7 @@ const pickPhotos = async () => {
                 console.log(
                   'Preview failed:',
                   index,
-                  uri,
+                  photo.uri,
                   error.nativeEvent.error
                 )
               }
@@ -230,15 +154,18 @@ const pickPhotos = async () => {
         )}
 
         <Text style={styles.photoHint}>
-          Choose up to 10 photos for this memory.
+          Choose up to 10 JPEG/PNG photos. Each: 10 MB / 20 MP. Local limit: 30 photos per UTC month.
         </Text>
       </View>
 
       <TouchableOpacity
         style={styles.saveButton}
+        accessibilityRole="button"
+        accessibilityLabel="Save memory"
+        disabled={isSaving}
         onPress={handleSave}
       >
-        <Text style={styles.saveButtonText}>Save memory  →</Text>
+        <Text style={styles.saveButtonText}>{isSaving ? 'Saving…' : 'Save memory  →'}</Text>
       </TouchableOpacity>
 
 

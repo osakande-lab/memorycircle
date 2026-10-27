@@ -41,3 +41,10 @@ example
 # generated native folders
 /ios
 /android
+
+.pnpm-store/
+node_modules.sdk57-backup/
+*.backup
+package-lock.sdk57-backup.json
+
+dist-reviewed/

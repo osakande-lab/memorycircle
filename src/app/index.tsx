@@ -1,4 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {repository} from '@/data/repository';
+import type {Memory} from '@/data/memory-repository';
 import { router, useFocusEffect } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useState } from 'react';
@@ -13,9 +14,8 @@ import {
 
 export default function HomeScreen() {
   
-  const [memories, setMemories] = useState<
-    { id: string; title: string; story: string; createdAt: string }[]
-  >([]);
+  const [memories,setMemories]=useState<Memory[]>([]);
+  const [error,setError]=useState('');
 
   useFocusEffect(
     useCallback(() => {
@@ -23,14 +23,14 @@ export default function HomeScreen() {
 
       async function loadMemories() {
         try {
-          const saved = await AsyncStorage.getItem('memorycircle_memories');
-          const parsed = saved ? JSON.parse(saved) : [];
+          const parsed = await repository.list();
+          if(active)setError('');
 
           if (active) {
             setMemories(parsed);
           }
-        } catch (error) {
-          console.error('Error loading memories:', error);
+        } catch {
+          if(active)setError('Could not read saved memories. Existing data has not been replaced.');
         }
       }
 
@@ -45,6 +45,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="dark" />
       <ScrollView contentContainerStyle={styles.container}>
+        {!!error && <Text accessibilityRole="alert" style={{color:"#a02f24"}}>{error}</Text>}
         <View style={styles.header}>
           <View style={styles.logo}>
             <Text style={styles.logoText}>M</Text>
@@ -69,7 +70,6 @@ export default function HomeScreen() {
         <TouchableOpacity
   style={styles.createButton}
   onPress={() => {
-    console.log('CREATE MEMORY BUTTON PRESSED');
     router.push('/create-memory');
   }}
 >
@@ -80,7 +80,7 @@ export default function HomeScreen() {
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Your circle</Text>
-          <Text style={styles.sectionLink}>See all</Text>
+          <Text style={styles.sectionLink}>Coming later</Text>
         </View>
 
         <View style={styles.circleCard}>
@@ -90,8 +90,7 @@ export default function HomeScreen() {
           <View style={styles.circleContent}>
             <Text style={styles.cardTitle}>Your story starts here</Text>
             <Text style={styles.cardDescription}>
-              Create a circle and invite your favourite people to share
-              memories together.
+              Circle invitations are planned for a later version. Memories in this prototype are saved only on this device.
             </Text>
           </View>
         </View>

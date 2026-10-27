@@ -1,0 +1,5 @@
+import http from 'node:http';
+import {readFile,stat} from 'node:fs/promises';
+import {resolve,sep,extname} from 'node:path';
+const root=resolve('dist-reviewed');const mime={'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon','.ttf':'font/ttf','.svg':'image/svg+xml'};
+http.createServer(async(req,res)=>{try{const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);let file=resolve(root,'.'+pathname);if(file!==root&&!file.startsWith(root+sep)){res.writeHead(403).end();return;}try{if(!(await stat(file)).isFile())file=resolve(root,'index.html');}catch{if(extname(file)){res.writeHead(404).end();return;}file=resolve(root,'index.html');}const bytes=await readFile(file);res.writeHead(200,{'Content-Type':mime[extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(bytes);}catch{res.writeHead(500).end('Could not serve the web build. Run npm run build:web first.');}}).listen(4173,'127.0.0.1',()=>console.log('MemoryCircle: http://127.0.0.1:4173'));

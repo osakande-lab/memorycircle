@@ -1,9 +1,11 @@
 import * as DocumentPicker from 'expo-document-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {repository} from '@/data/repository';
+import {nextReelIndex} from '@/data/memory-repository';
+import type {Memory,CollageLayout} from '@/data/memory-repository';
 import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useState } from 'react';
-import { setAudioModeAsync, useAudioPlayer } from 'expo-audio';
+import {BackgroundAudio} from '@/components/background-audio';
 import {
   ActivityIndicator,
   Alert,
@@ -15,17 +17,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-type CollageLayout = 'classic' | 'grid' | 'scrapbook';
-
-type Memory = {
-  id: string;
-  title: string;
-  story: string;
-  createdAt: string;
-  photos?: string[];
-  collageLayout?: CollageLayout;
-};
 
 const LAYOUTS: { id: CollageLayout; label: string; description: string }[] = [
   { id: 'classic', label: 'Classic', description: 'One large photo and smaller photos' },
@@ -39,7 +30,7 @@ export default function MemoryDetailScreen() {
   const [loading, setLoading] = useState(true);
   const [collageLayout, setCollageLayout] =
     useState<CollageLayout>('classic');
-  const musicPlayer = useAudioPlayer(null);
+  const [stopAudioSignal,setStopAudioSignal]=useState(0);
   const [isReelPlaying, setIsReelPlaying] = useState(false);
   const [reelPhotoIndex, setReelPhotoIndex] = useState(0);
   const [selectedMusic, setSelectedMusic] = useState<{
@@ -78,30 +69,6 @@ const pickBackgroundMusic = async () => {
     );
   }
 };
-const playBackgroundMusic = async () => {
-  if (!selectedMusic) {
-    Alert.alert('No music selected', 'Choose a music file first.');
-    return;
-  }
-
-  try {
-    await setAudioModeAsync({
-      playsInSilentMode: true,
-    });
-
-    musicPlayer.replace(selectedMusic.uri);
-    musicPlayer.play();
-  } catch (error) {
-    console.error('Music playback error:', error);
-    Alert.alert('Playback error', 'Could not play this music file.');
-  }
-};
-
-const stopBackgroundMusic = () => {
-  musicPlayer.pause();
-  musicPlayer.seekTo(0);
-};
-  
 useEffect(() => {
   const photos = memory?.photos ?? [];
 
@@ -111,7 +78,7 @@ useEffect(() => {
 
   const timer = setInterval(() => {
     setReelPhotoIndex((currentIndex) =>
-      (currentIndex + 1) % photos.length
+      nextReelIndex(currentIndex,photos.length)
     );
   }, 2500);
 
@@ -125,13 +92,8 @@ useEffect(() => {
 
       async function loadMemory() {
         try {
-          const saved = await AsyncStorage.getItem('memorycircle_memories');
-          const memories: Memory[] = saved ? JSON.parse(saved) : [];
-          const found = memories.find((item) => item.id === id);
+          const found = await repository.find(id);
 
-          console.log('Opened memory:', found?.title);
-          console.log('Number of photos:', found?.photos?.length ?? 0);
-          console.log('Saved photo URIs:', found?.photos);
 
           if (active) {
             setMemory(found ?? null);
@@ -165,19 +127,7 @@ useEffect(() => {
     setCollageLayout(nextLayout);
 
     try {
-      const saved = await AsyncStorage.getItem('memorycircle_memories');
-      const memories: Memory[] = saved ? JSON.parse(saved) : [];
-
-      const updatedMemories = memories.map((item) =>
-        item.id === memory.id
-          ? { ...item, collageLayout: nextLayout }
-          : item
-      );
-
-      await AsyncStorage.setItem(
-        'memorycircle_memories',
-        JSON.stringify(updatedMemories)
-      );
+      await repository.setLayout(memory.id,nextLayout);
 
       setMemory({ ...memory, collageLayout: nextLayout });
     } catch (error) {
@@ -186,6 +136,8 @@ useEffect(() => {
       Alert.alert('Error', 'Could not save your collage layout.');
     }
   };
+
+  useFocusEffect(useCallback(()=>()=>{setIsReelPlaying(false);setStopAudioSignal(s=>s+1);},[]));
 
   const getPhotoStyle = (index: number, total: number) => {
     if (collageLayout === 'scrapbook') {
@@ -281,53 +233,16 @@ useEffect(() => {
                   {LAYOUTS.find((item) => item.id === collageLayout)?.description}
                 </Text>
 
-<TouchableOpacity
-  style={{
-    backgroundColor: '#526B55',
-    padding: 15,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 18,
-  }}
-  onPress={() => {
-    setReelPhotoIndex(0);
-    setIsReelPlaying(true);
-  }}
->
-  <Text style={{ color: '#FFFFFF', fontWeight: '700' }}>
-    ▶ Play Video Reel
-  </Text>
-  <TouchableOpacity
-  style={styles.reelButton}
-  onPress={pickBackgroundMusic}
->
-  <Text style={styles.reelButtonText}>
-    {selectedMusic
-      ? `🎵 Music: ${selectedMusic.name}`
-      : '🎵 Choose Background Music'}
-  </Text>
-</TouchableOpacity>
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={styles.reelButton}
-  onPress={playBackgroundMusic}
->
-  <Text style={styles.reelButtonText}>
-    ▶ Play Music
-  </Text>
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={styles.reelButton}
-  onPress={stopBackgroundMusic}
->
-  <Text style={styles.reelButtonText}>
-    ■ Stop Music
-  </Text>
-</TouchableOpacity>
-
-
+<View style={{gap:10,marginBottom:18}}>
+  <TouchableOpacity accessibilityRole="button" style={styles.reelButton} onPress={()=>{setReelPhotoIndex(0);setIsReelPlaying(true);}}>
+    <Text style={styles.reelButtonText}>Play Photo Reel</Text>
+  </TouchableOpacity>
+  <TouchableOpacity accessibilityRole="button" style={styles.reelButton} onPress={pickBackgroundMusic}>
+    <Text style={styles.reelButtonText}>{selectedMusic?'Music: '+selectedMusic.name:'Choose Background Music'}</Text>
+  </TouchableOpacity>
+  <BackgroundAudio uri={selectedMusic?.uri??null} stopSignal={stopAudioSignal} />
+  <Text style={styles.layoutHint}>This is an in-app photo slideshow. MP4 generation and downloads are planned.</Text>
+</View>
 {isReelPlaying && (
   <View style={{ marginBottom: 24 }}>
     <Image
@@ -356,7 +271,7 @@ useEffect(() => {
         padding: 12,
         alignItems: 'center',
       }}
-      onPress={() => setIsReelPlaying(false)}
+      onPress={() => {setIsReelPlaying(false);setStopAudioSignal(s=>s+1);}}
     >
       <Text style={{ color: '#526B55', fontWeight: '700' }}>
         ■ Stop Reel
@@ -408,6 +323,8 @@ useEffect(() => {
 }
 
 const styles = StyleSheet.create({
+  reelButton:{backgroundColor:'#526B55',padding:15,borderRadius:12,alignItems:'center'},
+  reelButtonText:{color:'#fff',fontWeight:'700'},
   safeArea: {
     flex: 1,
     backgroundColor: '#FAF8F4',
