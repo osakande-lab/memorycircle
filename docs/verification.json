@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-27T19:20:10.725Z",
+  "node": "v24.22.1",
+  "tests": {
+    "passed": 24,
+    "failed": 0
+  },
+  "typecheck": "passed",
+  "lint": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "webExport": "passed",
+  "browser": [
+    "empty required fields rejected",
+    "three photos selected and saved",
+    "saved memory reopened",
+    "Grid layout and three images persisted after reload",
+    "audio element playing: paused=false, ended=false, duration=6, error=null",
+    "reel started and stopped"
+  ],
+  "nativeDevice": "not executed in this environment"
+}
