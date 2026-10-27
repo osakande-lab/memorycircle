@@ -1,0 +1,12 @@
+import express from 'express';
+import {resolve} from 'node:path';
+import {createApp} from './app.js';
+import {localStore} from './local.js';
+import {supabaseStore} from './supabase.js';
+const mode=process.env.APP_MODE||'local';
+if(!['local','supabase'].includes(mode))throw Error('APP_MODE must be local or supabase');
+const store=mode==='supabase'?supabaseStore(process.env):localStore(process.env.DATA_FILE||'./data/memorycircle.json');
+const app=createApp(store,{secure:process.env.COOKIE_SECURE==='true'});
+app.use(express.static(resolve('dist')));
+app.get('/',(req,res)=>res.sendFile(resolve('dist/index.html')));
+app.listen(Number(process.env.PORT||3001),process.env.HOST||'127.0.0.1',()=>console.log('MemoryCircle '+mode+' mode: http://127.0.0.1:'+(process.env.PORT||3001)));

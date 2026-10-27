@@ -1,0 +1,30 @@
+import express from 'express';
+import helmet from 'helmet';
+import {rateLimit} from 'express-rate-limit';
+import multer from 'multer';
+import {AppError,account,groupInput,imageInput,monthInput} from './validation.js';
+export function createApp(store,{secure=false,clock=()=>new Date(),authLimit=40}={}){
+ const app=express();app.disable('x-powered-by');
+ app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'"],styleSrc:["'self'","'unsafe-inline'"],imgSrc:["'self'",'blob:'],connectSrc:["'self'"],objectSrc:["'none'"]}}}));
+ app.use(express.json({limit:'16kb'}));
+ app.use('/api',(req,res,next)=>{res.set('Cache-Control','no-store');const origin=req.get('origin');let cross=false;try{cross=origin&&new URL(origin).host!==req.get('host');}catch{cross=true;}if(!['GET','HEAD','OPTIONS'].includes(req.method)&&(cross||req.get('sec-fetch-site')==='cross-site'))return res.status(403).json({error:'Cross-site request denied.'});next();});
+ const token=req=>{try{return decodeURIComponent((req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('mc_session='))?.slice(11)||'');}catch{return '';}};
+ const options={httpOnly:true,sameSite:'strict',secure,path:'/',maxAge:8*3600000};
+ app.get('/api/config',(req,res)=>res.json({mode:store.mode}));
+ app.use('/api/auth',rateLimit({windowMs:15*60000,limit:authLimit,standardHeaders:'draft-8',legacyHeaders:false}));
+ app.post('/api/auth/register',async(req,res)=>{const a=account(req.body);res.status(201).json(await store.register(a.email,a.password));});
+ app.post('/api/auth/login',async(req,res)=>{const a=account(req.body);const t=await store.login(a.email,a.password);res.cookie('mc_session',t,options).json({user:await store.user(t)});});
+ app.post('/api/auth/logout',async(req,res)=>{await store.logout(token(req));res.clearCookie('mc_session',{httpOnly:true,sameSite:'strict',secure,path:'/'}).json({message:'Signed out.'});});
+ app.use('/api',async(req,res,next)=>{try{req.user=await store.user(token(req));next();}catch(e){next(e);}});
+ app.get('/api/me',(req,res)=>res.json(req.user));
+ app.get('/api/groups',async(req,res)=>res.json(await store.groups(req.user.id)));
+ app.post('/api/groups',async(req,res)=>{const g=groupInput(req.body);res.status(201).json(await store.createGroup(req.user.id,g.name,g.schedule));});
+ app.get('/api/groups/:id',async(req,res)=>res.json(await store.group(req.user.id,req.params.id)));
+ const upload=multer({storage:multer.memoryStorage(),limits:{fileSize:10*1024*1024,files:1,fields:1,fieldSize:2048}});
+ app.post('/api/groups/:id/photos',async(req,res,next)=>{try{await store.group(req.user.id,req.params.id);next();}catch(e){next(e);}},upload.single('photo'),async(req,res)=>{const p=await imageInput(req.file,req.body.caption??'',clock());res.status(201).json(await store.upload(req.user.id,req.params.id,p));});
+ app.get('/api/groups/:id/photos',async(req,res)=>res.json(await store.photos(req.user.id,req.params.id,monthInput(req.query.month))));
+ app.get('/api/photos/:id/content',async(req,res)=>{const p=await store.image(req.user.id,req.params.id);res.type(p.mime).send(p.bytes);});
+ app.use('/api',(req,res)=>res.status(404).json({error:'Route not found.'}));
+ app.use((err,req,res,next)=>{const status=err instanceof AppError?err.status:err instanceof multer.MulterError?400:err.type==='entity.too.large'?413:err.type==='entity.parse.failed'?400:500;if(status===500)console.error('Request failed:',err.message);res.status(status).json({error:status===500?'The request could not be saved. Please try again.':err instanceof multer.MulterError?'Upload rejected: use one image up to 10 MB.':err.message});});
+ return app;
+}

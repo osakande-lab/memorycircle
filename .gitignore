@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+data/
+spike-output/
+*.log
+.pnpm-store/
+.test-data/
