@@ -1,0 +1,111 @@
+ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --pkg-config=pkgconf --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-dxva2 --enable-d3d11va --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, image2, from 'C:\Users\Hello\Documents\Codex\2026-10-27\files-pasted-by-the-user-p2\work\memorycircle\spike-output/frame%02d.jpg':
+  Duration: 00:01:00.00, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: mjpeg (Baseline), yuvj420p(pc, bt470bg/unknown/unknown), 1280x720, 0.50 fps, 0.50 tbr, 0.50 tbn
+Input #1, lavfi, from 'sine=frequency=440:sample_rate=44100:duration=60':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #1:0: Audio: pcm_s16le, 44100 Hz, mono, s16, 705 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (mjpeg (native) -> h264 (libx264))
+  Stream #1:0 -> #0:1 (pcm_s16le (native) -> aac (native))
+Press [q] to stop, [?] for help
+[in#0/image2 @ 000001a559491600] Thread message queue blocking; consider raising the thread_queue_size option (current value: 8)
+[swscaler @ 000001a55952bac0] deprecated pixel format used, make sure you did set range correctly
+    Last message repeated 3 times
+[libx264 @ 000001a5594a51c0] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX FMA3 BMI2 AVX2
+[libx264 @ 000001a5594a51c0] profile High, level 3.1, 4:2:0, 8-bit
+[libx264 @ 000001a5594a51c0] 264 - core 164 r3172 c1c9931 - H.264/MPEG-4 AVC codec - Copyleft 2003-2023 - http://www.videolan.org/x264.html - options: cabac=1 ref=2 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=6 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=12 lookahead_threads=2 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=1 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=30 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
+Output #0, mp4, to 'C:\Users\Hello\Documents\Codex\2026-10-27\files-pasted-by-the-user-p2\work\memorycircle\spike-output/synthetic-recap.mp4':
+  Metadata:
+    encoder         : Lavf60.16.100
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720, q=2-31, 30 fps, 15360 tbn
+    Metadata:
+      encoder         : Lavc60.31.102 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
+  Stream #0:1: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, mono, fltp, 69 kb/s
+    Metadata:
+      encoder         : Lavc60.31.102 aac
+frame=    0 fps=0.0 q=0.0 size=       0kB time=N/A bitrate=N/A dup=59 drop=0 speed=N/A    frame=   75 fps=0.0 q=29.0 size=       0kB time=00:00:03.99 bitrate=   0.1kbits/s dup=236 drop=0 speed=5.89x    frame=  195 fps=151 q=29.0 size=       0kB time=00:00:07.98 bitrate=   0.0kbits/s dup=354 drop=0 speed=6.18x    frame=  314 fps=163 q=29.0 size=       0kB time=00:00:11.98 bitrate=   0.0kbits/s dup=472 drop=0 speed= 6.2x    frame=  435 fps=173 q=29.0 size=       0kB time=00:00:15.99 bitrate=   0.0kbits/s dup=590 drop=0 speed=6.36x    frame=  555 fps=177 q=29.0 size=       0kB time=00:00:19.99 bitrate=   0.0kbits/s dup=708 drop=0 speed=6.39x    frame=  674 fps=175 q=29.0 size=       0kB time=00:00:23.98 bitrate=   0.0kbits/s dup=826 drop=0 speed=6.22x    frame=  794 fps=175 q=29.0 size=     256kB time=00:00:27.98 bitrate=  75.0kbits/s dup=944 drop=0 speed=6.17x    [vost#0:0/libx264 @ 000001a5594a4e00] More than 1000 frames duplicated
+frame=  915 fps=178 q=29.0 size=     256kB time=00:00:31.99 bitrate=  65.6kbits/s dup=1062 drop=0 speed=6.22x    frame= 1035 fps=180 q=29.0 size=     256kB time=00:00:35.99 bitrate=  58.3kbits/s dup=1180 drop=0 speed=6.26x    frame= 1154 fps=181 q=29.0 size=     256kB time=00:00:39.98 bitrate=  52.5kbits/s dup=1298 drop=0 speed=6.26x    frame= 1274 fps=181 q=29.0 size=     256kB time=00:00:43.97 bitrate=  47.7kbits/s dup=1416 drop=0 speed=6.24x    frame= 1395 fps=182 q=29.0 size=     256kB time=00:00:47.99 bitrate=  43.7kbits/s dup=1534 drop=0 speed=6.26x    frame= 1515 fps=182 q=29.0 size=     512kB time=00:00:51.98 bitrate=  80.7kbits/s dup=1652 drop=0 speed=6.23x    frame= 1634 fps=183 q=29.0 size=     512kB time=00:00:55.98 bitrate=  74.9kbits/s dup=1770 drop=0 speed=6.28x    [mp4 @ 000001a5594a4100] Starting second pass: moving the moov atom to the beginning of the file
+[out#0/mp4 @ 000001a5594a4000] video:138kB audio:507kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 10.071467%
+frame= 1800 fps=187 q=-1.0 Lsize=     710kB time=00:00:59.97 bitrate=  97.0kbits/s dup=1770 drop=0 speed=6.24x    
+[libx264 @ 000001a5594a51c0] frame I:8     Avg QP: 5.98  size:  5253
+[libx264 @ 000001a5594a51c0] frame P:454   Avg QP:11.34  size:   105
+[libx264 @ 000001a5594a51c0] frame B:1338  Avg QP:13.66  size:    38
+[libx264 @ 000001a5594a51c0] consecutive B-frames:  0.9%  0.0%  0.0% 99.1%
+[libx264 @ 000001a5594a51c0] mb I  I16..4: 94.0%  4.7%  1.3%
+[libx264 @ 000001a5594a51c0] mb P  I16..4:  0.2%  0.0%  0.0%  P16..4:  0.1%  0.0%  0.0%  0.0%  0.0%    skip:99.6%
+[libx264 @ 000001a5594a51c0] mb B  I16..4:  0.0%  0.0%  0.0%  B16..8:  0.0%  0.0%  0.0%  direct: 0.0%  skip:100.0%  L0:55.5% L1:44.5% BI: 0.0%
+[libx264 @ 000001a5594a51c0] 8x8 transform intra:4.5% inter:81.3%
+[libx264 @ 000001a5594a51c0] coded y,uvDC,uvAC intra: 1.9% 3.2% 2.8% inter: 0.0% 0.0% 0.0%
+[libx264 @ 000001a5594a51c0] i16 v,h,dc,p: 97%  0%  2%  0%
+[libx264 @ 000001a5594a51c0] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 56%  6% 28%  2%  1%  2%  1%  2%  1%
+[libx264 @ 000001a5594a51c0] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 27% 21% 21%  5%  5%  7%  4%  7%  4%
+[libx264 @ 000001a5594a51c0] i8c dc,h,v,p: 97%  1%  2%  0%
+[libx264 @ 000001a5594a51c0] Weighted P-Frames: Y:6.2% UV:6.2%
+[libx264 @ 000001a5594a51c0] ref P L0: 94.6%  5.4%
+[libx264 @ 000001a5594a51c0] ref B L0: 83.5% 16.5%
+[libx264 @ 000001a5594a51c0] kb/s:18.73
+[aac @ 000001a5594b2640] Qavg: 270.468
+
+DECODE VERIFICATION
+ffmpeg version 6.1.1-essentials_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.2.0 (Rev10, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --pkg-config=pkgconf --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-zlib --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-sdl2 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxvid --enable-libaom --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-dxva2 --enable-d3d11va --enable-libvpl --enable-libgme --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libtheora --enable-libvo-amrwbenc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-librubberband
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\Hello\Documents\Codex\2026-10-27\files-pasted-by-the-user-p2\work\memorycircle\spike-output/synthetic-recap.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Duration: 00:01:00.00, start: 0.000000, bitrate: 96 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720, 18 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, mono, fltp, 69 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+  Stream #0:1 -> #0:1 (aac (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf60.16.100
+  Stream #0:0(und): Video: wrapped_avframe, yuv420p(tv, bt470bg/unknown/unknown, progressive), 1280x720, q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 wrapped_avframe
+  Stream #0:1(und): Audio: pcm_s16le, 44100 Hz, mono, s16, 705 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc60.31.102 pcm_s16le
+frame=    0 fps=0.0 q=-0.0 size=N/A time=00:00:00.25 bitrate=N/A speed=15.5x    frame=  923 fps=0.0 q=-0.0 size=N/A time=00:00:31.02 bitrate=N/A speed=60.1x    [out#0/null @ 00000216a04fe680] video:844kB audio:5168kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+frame= 1800 fps=0.0 q=-0.0 Lsize=N/A time=00:00:59.97 bitrate=N/A speed=60.2x    
