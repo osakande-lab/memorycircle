@@ -1,0 +1,18 @@
+import ffmpeg from 'ffmpeg-static';
+import sharp from 'sharp';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {spawn} from 'node:child_process';
+import {resolve} from 'node:path';
+import os from 'node:os';
+const out=resolve('spike-output');await mkdir(out,{recursive:true});
+for(let i=0;i<30;i++)await sharp({create:{width:1280,height:720,channels:3,background:{r:50+i*5,g:100+i*3,b:140-i*2}}}).composite([{input:Buffer.from('<svg width="1280" height="720"><text x="80" y="360" font-size="90" fill="white">Memory '+(i+1)+'</text></svg>')}]).jpeg().toFile(out+'/frame'+String(i).padStart(2,'0')+'.jpg');
+const video=out+'/synthetic-recap.mp4';
+const args=['-y','-framerate','1/2','-i',out+'/frame%02d.jpg','-f','lavfi','-i','sine=frequency=440:sample_rate=44100:duration=60','-t','60','-c:v','libx264','-preset','fast','-pix_fmt','yuv420p','-vf','scale=1280:720','-r','30','-c:a','aac','-shortest','-movflags','+faststart',video];
+const started=performance.now();let log='';
+await new Promise((yes,no)=>{const p=spawn(ffmpeg,args);p.stderr.on('data',b=>{log+=b;});p.on('error',no);p.on('exit',code=>code===0?yes():no(Error(log)));});
+const seconds=(performance.now()-started)/1000;
+let probe='';await new Promise((yes,no)=>{const p=spawn(ffmpeg,['-i',video,'-f','null','-']);p.stderr.on('data',b=>{probe+=b;});p.on('error',no);p.on('exit',code=>code===0?yes():no(Error(probe)));});
+const duration=Number(probe.match(/Duration: (\d+):(\d+):(\d+\.\d+)/)?.slice(1).reduce((n,x)=>n*60+Number(x),0));
+if(!duration||duration>60.1||!probe.includes('1280x720')||!probe.includes('Video: h264')||!probe.includes('Audio: aac'))throw Error('Output properties failed verification');
+const result={date:new Date().toISOString(),host:{platform:os.platform(),release:os.release(),cpu:os.cpus()[0].model,logicalCpus:os.cpus().length,totalMemoryGB:Math.round(os.totalmem()/1024**3),node:process.version},input:'30 synthetic 1280x720 JPEG images; generated sine tone (no third-party music)',elapsedSeconds:Number(seconds.toFixed(2)),durationSeconds:duration,width:1280,height:720,videoCodec:'H.264',audioCodec:'AAC',playableDecodeVerified:true,withinFiveMinutes:seconds<300,peakMemory:'Not measured',deployment:'Local Windows process only. Docker and intended host not tested.',command:[ffmpeg,...args],decision:'Local feasibility only; defer hosting decision until Docker-capable target is selected.'};
+await writeFile(out+'/result.json',JSON.stringify(result,null,2));await writeFile(out+'/ffmpeg.log',log+'\nDECODE VERIFICATION\n'+probe);console.log(JSON.stringify(result,null,2));

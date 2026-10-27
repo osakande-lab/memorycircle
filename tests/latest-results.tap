@@ -1,0 +1,108 @@
+TAP version 13
+# Subtest: US-01: register, sign in, reject invalid credentials, revoke saved cookie on logout
+ok 1 - US-01: register, sign in, reject invalid credentials, revoke saved cookie on logout
+  ---
+  duration_ms: 519.8257
+  type: 'test'
+  ...
+# Subtest: US-01: invalid registration is rejected and emails normalize
+ok 2 - US-01: invalid registration is rejected and emails normalize
+  ---
+  duration_ms: 254.4948
+  type: 'test'
+  ...
+# Subtest: US-01: every private route rejects signed-out requests
+ok 3 - US-01: every private route rejects signed-out requests
+  ---
+  duration_ms: 264.9716
+  type: 'test'
+  ...
+# Subtest: US-02 AC1: creating group assigns owner and persists valid schedule
+ok 4 - US-02 AC1: creating group assigns owner and persists valid schedule
+  ---
+  duration_ms: 226.9613
+  type: 'test'
+  ...
+# Subtest: US-02 AC2: blank names, oversized names, invalid schedules create nothing
+ok 5 - US-02 AC2: blank names, oversized names, invalid schedules create nothing
+  ---
+  duration_ms: 240.5793
+  type: 'test'
+  ...
+# Subtest: US-02 AC3 / NFR-03: outsider cannot read group, upload, list photos, or read media
+ok 6 - US-02 AC3 / NFR-03: outsider cannot read group, upload, list photos, or read media
+  ---
+  duration_ms: 266.19
+  type: 'test'
+  ...
+# Subtest: US-06 AC1: JPEG/PNG accepted once, 200-character captions, private decoded media
+ok 7 - US-06 AC1: JPEG/PNG accepted once, 200-character captions, private decoded media
+  ---
+  duration_ms: 276.4677
+  type: 'test'
+  ...
+# Subtest: US-06 AC2: forged MIME, corrupt images, unsupported GIF, long caption, missing file rejected
+ok 8 - US-06 AC2: forged MIME, corrupt images, unsupported GIF, long caption, missing file rejected
+  ---
+  duration_ms: 253.435
+  type: 'test'
+  ...
+# Subtest: US-06 AC2: file above 10 MB rejected without photo metadata
+ok 9 - US-06 AC2: file above 10 MB rejected without photo metadata
+  ---
+  duration_ms: 287.0115
+  type: 'test'
+  ...
+# Subtest: US-06 AC2: decoded image above 20 megapixels rejected
+ok 10 - US-06 AC2: decoded image above 20 megapixels rejected
+  ---
+  duration_ms: 610.1157
+  type: 'test'
+  ...
+# Subtest: US-06 AC3: simultaneous uploads at 29 result in one success and one cap rejection
+ok 11 - US-06 AC3: simultaneous uploads at 29 result in one success and one cap rejection
+  ---
+  duration_ms: 619.3735
+  type: 'test'
+  ...
+# Subtest: US-06: cap is per member/group/UTC month, not a lifetime quota
+ok 12 - US-06: cap is per member/group/UTC month, not a lifetime quota
+  ---
+  duration_ms: 527.2979
+  type: 'test'
+  ...
+# Request failed: EEXIST: file already exists, mkdir 'C:\\Users\\Hello\\Documents\\Codex\\2026-10-27\\files-pasted-by-the-user-p2\\work\\memorycircle\\.test-data\\memorycircle-J8b8xR'
+# Subtest: US-06 AC3: failed persistence leaves no completed photo
+ok 13 - US-06 AC3: failed persistence leaves no completed photo
+  ---
+  duration_ms: 269.0025
+  type: 'test'
+  ...
+# Subtest: Persistence: accounts, groups, photos survive adapter restart
+ok 14 - Persistence: accounts, groups, photos survive adapter restart
+  ---
+  duration_ms: 390.138
+  type: 'test'
+  ...
+# Subtest: Boundary: rejects malformed months and cross-site writes
+ok 15 - Boundary: rejects malformed months and cross-site writes
+  ---
+  duration_ms: 266.3389
+  type: 'test'
+  ...
+# Request failed: SECRET_DATABASE_CONNECTION
+# Subtest: Boundary: database failure does not leak internal details
+ok 16 - Boundary: database failure does not leak internal details
+  ---
+  duration_ms: 256.2065
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6671.7958
