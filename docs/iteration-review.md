@@ -16,3 +16,5 @@ P1 planned Akande for auth/session/UI integration; Seriki for groups/membership 
 
 ## Next adjustments
 Provision Supabase and run the live negative/concurrency checklist. Complete independent teammate setup/reviews before Done. Select a Docker-capable host; measure spike runtime/peak memory and five runs, then record proceed/change-host decision. Next build invitations/shared membership and full timeline, preserving privacy boundaries. Retain estimates until observed integration effort supports changes. Do not invent hours or velocity.
+
+Clean-runner CI initially rejected unapproved dependency build scripts. Added an explicit version-specific allowlist for esbuild, sharp and ffmpeg-static in pnpm-workspace.yaml; verify the new run before claiming CI success.
