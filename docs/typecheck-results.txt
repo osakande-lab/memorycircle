@@ -1,0 +1,2 @@
+TypeScript check: passed.
+Command: npm run typecheck (tsc --noEmit).

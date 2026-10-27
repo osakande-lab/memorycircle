@@ -1,0 +1,2 @@
+ESLint source check: passed; 0 errors, 0 warnings.
+Command: npm run lint (Expo ESLint configuration).

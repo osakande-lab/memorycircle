@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: P2-M01 AC1: save trims text, assigns ID/time and survives repository recreation
+ok 1 - P2-M01 AC1: save trims text, assigns ID/time and survives repository recreation
+  ---
+  duration_ms: 13.8352
+  type: 'test'
+  ...
+# Subtest: P2-M01 AC2: blank title is rejected without writes
+ok 2 - P2-M01 AC2: blank title is rejected without writes
+  ---
+  duration_ms: 1.0203
+  type: 'test'
+  ...
+# Subtest: P2-M01 AC2: blank story is rejected without writes
+ok 3 - P2-M01 AC2: blank story is rejected without writes
+  ---
+  duration_ms: 0.5678
+  type: 'test'
+  ...
+# Subtest: P2-M01 limits: exact text boundaries accepted
+ok 4 - P2-M01 limits: exact text boundaries accepted
+  ---
+  duration_ms: 0.5377
+  type: 'test'
+  ...
+# Subtest: P2-M01 limits: overlong title and story rejected
+ok 5 - P2-M01 limits: overlong title and story rejected
+  ---
+  duration_ms: 0.5089
+  type: 'test'
+  ...
+# Subtest: P2-M01 empty state: no saved key returns an empty collection
+ok 6 - P2-M01 empty state: no saved key returns an empty collection
+  ---
+  duration_ms: 0.5028
+  type: 'test'
+  ...
+# Subtest: P2-M01 ordering: new memories appear first
+ok 7 - P2-M01 ordering: new memories appear first
+  ---
+  duration_ms: 0.7924
+  type: 'test'
+  ...
+# Subtest: P2-M01 overlapping saves preserve both records
+ok 8 - P2-M01 overlapping saves preserve both records
+  ---
+  duration_ms: 0.9843
+  type: 'test'
+  ...
+# Subtest: Corrupt JSON never gets silently overwritten
+ok 9 - Corrupt JSON never gets silently overwritten
+  ---
+  duration_ms: 1.0301
+  type: 'test'
+  ...
+# Subtest: Invalid saved object is rejected instead of crashing a screen map
+ok 10 - Invalid saved object is rejected instead of crashing a screen map
+  ---
+  duration_ms: 0.8325
+  type: 'test'
+  ...
+# Subtest: Legacy records without photos/layout receive safe defaults
+ok 11 - Legacy records without photos/layout receive safe defaults
+  ---
+  duration_ms: 0.4332
+  type: 'test'
+  ...
+# Subtest: P2-M02 AC1: ordered photos are copied before their metadata is published
+ok 12 - P2-M02 AC1: ordered photos are copied before their metadata is published
+  ---
+  duration_ms: 0.6325
+  type: 'test'
+  ...
+# Subtest: P2-M02 AC2: more than ten photos is rejected without copying
+ok 13 - P2-M02 AC2: more than ten photos is rejected without copying
+  ---
+  duration_ms: 0.3179
+  type: 'test'
+  ...
+# Subtest: P2-M02 AC2: unsupported format, >10MB and >20MP rejected
+ok 14 - P2-M02 AC2: unsupported format, >10MB and >20MP rejected
+  ---
+  duration_ms: 0.4322
+  type: 'test'
+  ...
+# Subtest: P2-M02 limits: exact 10MB/20MP accepted, invalid dimensions rejected
+ok 15 - P2-M02 limits: exact 10MB/20MP accepted, invalid dimensions rejected
+  ---
+  duration_ms: 0.4325
+  type: 'test'
+  ...
+# Subtest: P2-M02 AC3: copy failure removes previous copies and publishes no memory
+ok 16 - P2-M02 AC3: copy failure removes previous copies and publishes no memory
+  ---
+  duration_ms: 1.1489
+  type: 'test'
+  ...
+# Subtest: P2-M02 AC3: metadata/quota failure removes all copied photos
+ok 17 - P2-M02 AC3: metadata/quota failure removes all copied photos
+  ---
+  duration_ms: 0.6076
+  type: 'test'
+  ...
+# Subtest: P2-M02 cleanup failure is surfaced; no success is reported
+ok 18 - P2-M02 cleanup failure is surfaced; no success is reported
+  ---
+  duration_ms: 0.5916
+  type: 'test'
+  ...
+# Subtest: P2-M02 device monthly cap: overlapping uploads at 29 allow only one extra photo
+ok 19 - P2-M02 device monthly cap: overlapping uploads at 29 allow only one extra photo
+  ---
+  duration_ms: 0.8841
+  type: 'test'
+  ...
+# Subtest: P2-M02 cap rolls over at UTC month boundary
+ok 20 - P2-M02 cap rolls over at UTC month boundary
+  ---
+  duration_ms: 1.5184
+  type: 'test'
+  ...
+# Subtest: P2-M03 AC1-2: all collage choices persist without altering photos/text
+ok 21 - P2-M03 AC1-2: all collage choices persist without altering photos/text
+  ---
+  duration_ms: 1.1958
+  type: 'test'
+  ...
+# Subtest: P2-M03 failures: invalid layout/missing memory/write failure preserve stored data
+ok 22 - P2-M03 failures: invalid layout/missing memory/write failure preserve stored data
+  ---
+  duration_ms: 1.2235
+  type: 'test'
+  ...
+# Subtest: P2-M04 reel index advances, wraps and handles zero/one photo
+ok 23 - P2-M04 reel index advances, wraps and handles zero/one photo
+  ---
+  duration_ms: 0.2843
+  type: 'test'
+  ...
+# Subtest: A failed queued write does not block the next valid save
+ok 24 - A failed queued write does not block the next valid save
+  ---
+  duration_ms: 0.3439
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 455.4664

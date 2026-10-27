@@ -1,56 +1,36 @@
-# Welcome to your Expo app 👋
+# MemoryCircle - Team FrameFour P2
+Expo/React Native implementation based on the team's supplied MemoryCircle app.
+Team: Oluwatolayomi Akande, Daniel Seriki, Nimo Usman, Franklin Uba.
+Repository: https://github.com/osakande-lab/memorycircle
+Review branch: p2-mobile-baseline
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Features
+Create/persist/reopen local memories with title/story/photos, choose Classic/Grid/Scrapbook, play a looping photo reel and choose/play/stop local audio. Local only: no accounts, real shared circles, invitations, server upload, automated MP4 generation or video download.
 
-## Get started
+## Setup and checks
+Prerequisites: Node.js 24 with npm.
 
-1. Install dependencies
+    npm ci
+    npm test
+    npm run typecheck
+    npm run lint
+    npm run build:web
+    npm run web
 
-   ```bash
-   npm install
-   ```
+npm run web starts Expo's web development server; open the address printed in the terminal. For native use npm start, then use a compatible SDK 58 Expo client/development build. Native permissions/media behavior must be rehearsed on the actual device. No backend keys are needed.
 
-2. Start the app
+The project uses npm and the committed package-lock.json for reproducible installation. Do not run reset-project: it is a starter reset command, not needed for this demo.
 
-   ```bash
-   npx expo start
-   ```
+## Demo data
+Use demo-assets/photo-1.jpg to photo-3.jpg and demo-assets/demo-tone.mp3. They are synthetic, not personal media or third-party music. Create a memory with all three photos. Reopen it, switch collage layout, start/stop reel and choose/play/stop audio. Reload/reopen to show saved text/photos/layout. Audio selection and current reel position are not persisted.
 
-In the output, you'll find options to open the app in a
+## Storage
+Metadata key: memorycircle_memories in AsyncStorage. Native photos: app document directory / memorycircle-photos. Web photos are data URIs stored with metadata so blob URLs do not disappear on reload. Browser storage quota may limit photo capacity before the 30-photo device cap; failure is reported without publishing an incomplete record. Native photo copies are not encrypted cloud/group storage.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Validation: title 80, story 2000 characters; <=10 JPEG/PNG photos per memory, <=10 MB/20 MP per image, <=30 photos per local device per UTC month. Picker metadata and native file/browser blob checks support the prototype. There is no server-side decoding or per-member/group monthly enforcement.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Evidence
+24 repository tests cover acceptance behavior, concurrent local saves, corrupted/legacy data, limits, rollback, layouts and reel index. These tests inject storage/photo adapters; native filesystem/audio/permissions require device checks. See docs/acceptance-and-backlog.md and docs/architecture.md. Complete report and TA guide are in docs/.
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Scope change and contributions
+P1 planned React/Express/Supabase private groups and automated recaps. The team's supplied app instead establishes an Expo local-memory workflow. The report explicitly records the change and leaves unimplemented original stories pending. Team responsibilities are recorded on the user's confirmation that all members completed their roles; Git history is not fabricated or backdated. Preserve the original ZIP as the source snapshot.
