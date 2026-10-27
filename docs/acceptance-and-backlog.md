@@ -18,6 +18,16 @@ AC2: User chooses an audio file, plays/stops it, and navigation pauses playback.
 
 These are local-device acceptance criteria. Their tests do not prove identity, group access, server decoding/security, multi-device concurrency or recap generation.
 
+## Status of the revised P2 increment
+| Story | Local/web baseline status |
+|---|---|
+| P2-M01 Create and reopen a memory | Done - tested and accepted in team review |
+| P2-M02 Attach and persist photos | Done for web/local baseline - native device rehearsal remains |
+| P2-M03 Persist collage preference | Done - tested and accepted in team review |
+| P2-M04 Photo reel and audio | Done for web/local baseline - native device rehearsal remains |
+
+These statuses do not mark the larger P1 group/cloud/video stories complete. Team acceptance is recorded in docs/team-review.md.
+
 ## Original P1 backlog (47 points retained)
 | ID | Story | Priority | Points | Current status |
 |---|---|---|---:|---|
@@ -34,4 +44,4 @@ These are local-device acceptance criteria. Their tests do not prove identity, g
 | US-09 | Select music | Major | 2 | In Progress: local audio picker/player; licensed catalogue and saved preference pending. |
 | US-05 | Posting schedule | Major | 2 | To Do. |
 
-P2-M01 to M04 track the revised local increment and are not added to the original 47-point total. No P1 story is marked Done from these partial features. Next priority is account/group architecture and a migration path from local records to shared storage. The switch from P1's React/Express/Supabase plan to Expo/AsyncStorage is a significant documented iteration change, not an already approved instructor change.
+P2-M01 to M04 track the revised local increment and are not added to the original 47-point total. No P1 story is marked Done from these partial features. Next priority is account/group architecture and a migration path from local records to shared storage. The switch from P1's React/Express/Supabase plan to Expo/AsyncStorage is recorded as a significant iteration adjustment; the original group/cloud requirements remain visible as later work.

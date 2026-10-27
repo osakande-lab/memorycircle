@@ -2,7 +2,7 @@
 Expo/React Native implementation based on the team's supplied MemoryCircle app.
 Team: Oluwatolayomi Akande, Daniel Seriki, Nimo Usman, Franklin Uba.
 Repository: https://github.com/osakande-lab/memorycircle
-Review branch: p2-mobile-baseline
+Final P2 branch: main
 
 ## Features
 Create/persist/reopen local memories with title/story/photos, choose Classic/Grid/Scrapbook, play a looping photo reel and choose/play/stop local audio. Local only: no accounts, real shared circles, invitations, server upload, automated MP4 generation or video download.
@@ -33,4 +33,4 @@ Validation: title 80, story 2000 characters; <=10 JPEG/PNG photos per memory, <=
 24 repository tests cover acceptance behavior, concurrent local saves, corrupted/legacy data, limits, rollback, layouts and reel index. These tests inject storage/photo adapters; native filesystem/audio/permissions require device checks. See docs/acceptance-and-backlog.md and docs/architecture.md. Complete report and TA guide are in docs/.
 
 ## Scope change and contributions
-P1 planned React/Express/Supabase private groups and automated recaps. The team's supplied app instead establishes an Expo local-memory workflow. The report explicitly records the change and leaves unimplemented original stories pending. Team responsibilities are recorded on the user's confirmation that all members completed their roles; Git history is not fabricated or backdated. Preserve the original ZIP as the source snapshot.
+P1 planned React/Express/Supabase private groups and automated recaps. The team's supplied app instead establishes an Expo local-memory workflow. The report explicitly records the change and leaves unimplemented original stories pending. All four members reviewed and accepted the increment, as confirmed by Oluwatolayomi. The team worked together while Oluwatolayomi operated GitHub through osakande-lab, so the commits appear under one account. See docs/team-review.md for the group-review record. Preserve the original ZIP as the source snapshot.

@@ -1,10 +1,10 @@
 # MemoryCircle - TA review guide
 Team FrameFour | COMP 3415 P2
 
-This is a rehearsal guide, separate from the report submitted to D2L. Use the p2-mobile-baseline version based on the supplied Expo app. The old Express prototype and its 16 tests are not this demonstration. This version has 24 repository tests.
+This is a rehearsal guide, separate from the report submitted to D2L. Use the finalized main branch based on the supplied Expo app. The old Express prototype and its 16 tests are not this demonstration. This version has 24 repository tests.
 
 ## 1. Prepare together before the lab
-1. Put the final source on the presentation laptop. Open the repository on branch p2-mobile-baseline and the revised report. Confirm the TA can access the repository.
+1. Put the final source on the presentation laptop. Open the repository on branch main and the revised report. Confirm the TA can access the repository.
 2. Install Node.js 24, including npm. Open a terminal in the directory containing package.json. Run:
    npm ci
    npm test
@@ -79,7 +79,7 @@ Say: "Passing repository tests is evidence for these local rules. It is not evid
 Show docs/acceptance-and-backlog.md and the report backlog table.
 Say: "We kept the original P1 stories and estimates visible. Photo input, browsing and music have partial progress; cloud accounts/groups, membership changes, schedules and generated recaps remain incomplete. We added explicit P2 stories for this local increment instead of marking the larger P1 stories finished."
 Each member states a short truthful contribution and points to the relevant file or review evidence. Suggested areas: Akande integration/requirements/report; Seriki repository/persistence/navigation; Nimo photo selection/storage/validation; Uba collage/reel/audio/tests. Do not invent commit authors, dates, hours or a hosting test.
-Show the actual GitHub branch, commits and changed files. Explain that the friend-provided source is the starting point and the P2 integration fixes/tests are subsequent changes. The original ZIP is preserved locally. Do not claim its entire history appears in the new repository branch.
+Show the main branch, merged PR #2, commits and changed files. Explain that all four members worked together and reviewed the increment while Akande operated GitHub through osakande-lab, so commits appear under one account. Explain that the friend-provided source is the starting point and the P2 integration fixes/tests are subsequent changes. The original ZIP is preserved locally. Do not claim its entire history appears in the new repository branch.
 Closing: "Our next step is the shared-data foundation: accounts, private groups and membership checks. Then we can move local memories to backend storage and add an actual video-generation pipeline. This increment gives us a working local flow and tests to build on."
 
 ## 8. Likely TA questions - short answers
