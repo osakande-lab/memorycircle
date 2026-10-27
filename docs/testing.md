@@ -1,5 +1,5 @@
 # Initial testing plan
-16/16 automated local tests pass; captured output: tests/latest-results.tap. Windows 10.0.26200, Node v24.22.1. Production Vite build passes. Supertest calls the real Express API using the local store and Sharp decoding with synthetic files. Unique temporary persistence fixtures are cleaned. This is not hosted Supabase evidence.
+16/16 automated local tests pass; captured output: tests/latest-results.tap. Windows 10.0.26200, Node v24.22.1. Production Vite build passes. Clean GitHub Linux CI also passed installation, all 16 tests and build (run 40556656826). Supertest calls the real Express API using the local store and Sharp decoding with synthetic files. Unique temporary persistence fixtures are cleaned. This is not hosted Supabase evidence.
 
 | Requirement / P1 criteria | Implementation | Verification |
 |---|---|---|

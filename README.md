@@ -54,6 +54,6 @@ Creates 30 synthetic 720p photos and a synthetic tone; renders/decodes a 60-seco
 - docs/backlog.md: all 12 P1 stories, original estimates.
 - docs/iteration-review.md: planned/verified work and next steps.
 - docs/demo.md: repeatable TA walkthrough.
-- .github/workflows/ci.yml: automated local-mode tests/build; verify hosted run separately.
+- .github/workflows/ci.yml: automated local-mode tests/build; clean Linux CI passed, run 40556656826.
 
 P1 responsibility assignments remain a plan, not completed-contribution evidence. This baseline is AI-assisted at the user's request; the user reports instructor permission. Teammates must review, explain and honestly record their own work before submission. No reviews, contributions or commit dates are fabricated.
