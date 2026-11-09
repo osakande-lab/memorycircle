@@ -1,13 +1,39 @@
-# MemoryCircle - Team FrameFour P2
+# MemoryCircle - Team FrameFour
 Expo/React Native implementation based on the team's supplied MemoryCircle app.
 Team: Oluwatolayomi Akande, Daniel Seriki, Nimo Usman, Franklin Uba.
 Repository: https://github.com/osakande-lab/memorycircle
-Final P2 branch: main
+Default branch: main
 
-## Features
+## P3 shared-circle lab demo
+
+Requires Node.js 24, Python 3.11+ and Pillow. Run from the repository root:
+
+```sh
+npm ci
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r circles/requirements.txt
+npm run circles
+```
+
+On Windows, use `py -3 -m venv .venv` and activate with
+`.venv\Scripts\Activate.ps1` in PowerShell. The server invokes `python3` by
+default. If that executable is unavailable on your system, set
+`CIRCLES_PYTHON=python` (PowerShell: `$env:CIRCLES_PYTHON = 'python'`) after
+activation. Keep the Python environment active for tests as well.
+
+Open **http://127.0.0.1:8787**. Use a regular and a private window for separate
+accounts. The server stores data under the ignored `.circles-data/` folder.
+Use synthetic photos from `demo-assets/`. This lab build binds to loopback.
+See [P3 demo and verification](docs/p3-demo.md) for the walkthrough, design and
+acceptance evidence.
+
+## P2 Expo app
+
+### Local memory features
 Create/persist/reopen local memories with title/story/photos, choose Classic/Grid/Scrapbook, play a looping photo reel and choose/play/stop local audio. Local only: no accounts, real shared circles, invitations, server upload, automated MP4 generation or video download.
 
-## Setup and checks
+### Setup and checks
 Prerequisites: Node.js 24 with npm.
 
     npm ci
@@ -17,7 +43,7 @@ Prerequisites: Node.js 24 with npm.
     npm run build:web
     npm run web
 
-npm run web starts Expo's web development server; open the address printed in the terminal. For native use npm start, then use a compatible SDK 58 Expo client/development build. Native permissions/media behavior must be rehearsed on the actual device. No backend keys are needed.
+npm run web starts Expo's web development server; open the address printed in the terminal. For native use npm start, then use a compatible SDK 58 Expo client/development build. Native permissions/media behavior must be rehearsed on the actual device. No backend keys are needed. Run the P3 Python setup above before running the full test suite.
 
 The project uses npm and the committed package-lock.json for reproducible installation. Do not run reset-project: it is a starter reset command, not needed for this demo.
 

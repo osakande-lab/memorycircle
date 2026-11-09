@@ -80,7 +80,7 @@ export default function HomeScreen() {
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Your circle</Text>
-          <Text style={styles.sectionLink}>Coming later</Text>
+          <Text style={styles.sectionLink}>Shared circles</Text>
         </View>
 
         <View style={styles.circleCard}>
@@ -88,9 +88,9 @@ export default function HomeScreen() {
             <Text style={styles.circleEmoji}>♡</Text>
           </View>
           <View style={styles.circleContent}>
-            <Text style={styles.cardTitle}>Your story starts here</Text>
+            <Text style={styles.cardTitle}>Private circles on the web</Text>
             <Text style={styles.cardDescription}>
-              Circle invitations are planned for a later version. Memories in this prototype are saved only on this device.
+              Open the shared-circle web demo using the repository setup instructions. Memories created on this screen stay on this device.
             </Text>
           </View>
         </View>

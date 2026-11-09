@@ -1,0 +1,20 @@
+MemoryCircle P3 verification
+Node.js 24.22.1 / Python with Pillow 13.0.0
+
+npm test
+✔ web entry, registration, sign-in, session expiry and sign-out (232.656599ms)
+✔ private group ownership, invitation revocation/expiry and concurrent eight-member limit (695.8481ms)
+✔ photo validation, ordering, UTC month filter, access checks and posting schedules (556.812014ms)
+✔ leave and removal revoke group/media access and delete only the departing membership photos (295.422478ms)
+✔ failed writes roll back and concurrent uploads respect the per-circle monthly quota (1783.157269ms)
+ℹ tests 29
+ℹ pass 29
+ℹ fail 0
+
+npm run lint: passed
+
+npm run typecheck: passed
+
+npm run build:web: passed (Expo web export)
+
+The failed-write test intentionally triggers and handles a SQLite error.

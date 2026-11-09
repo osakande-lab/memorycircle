@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MemoryCircle | Shared circles</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0 auto; padding: 1.25rem; max-width: 56rem; background: #faf8f4; color: #28392d; font: 1rem system-ui, sans-serif; }
+    h1 { margin-bottom: .2rem; } h2 { margin-top: 0; }
+    section { background: white; border: 1px solid #d5ded3; border-radius: 1rem; padding: 1rem; margin: 1rem 0; }
+    label { display: block; margin: .6rem 0; }
+    input, select, button { font: inherit; padding: .5rem; max-width: 100%; border: 1px solid #697f6a; border-radius: .35rem; }
+    input, select { display: block; margin: .2rem 0; }
+    button { color: white; background: #395640; cursor: pointer; margin: .15rem .3rem .15rem 0; }
+    button:disabled { opacity: .6; cursor: wait; }
+    :focus-visible { outline: 3px solid #8a4b0d; outline-offset: 2px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; }
+    figure { margin: 0; overflow-wrap: anywhere; } img { width: 100%; height: 12rem; object-fit: contain; background: #edf1eb; }
+    #error { color: #9b261d; } #notice, li, h2, code { overflow-wrap: anywhere; }
+    li { margin-bottom: .35rem; }
+  </style>
+  <script src="/client.js" defer></script>
+</head>
+<body>
+  <header><h1>MemoryCircle</h1><p>Shared circles and monthly photos</p></header>
+  <p id="notice" role="status"></p><p id="error" role="alert"></p>
+  <section id="auth" hidden>
+    <h2>Account access</h2>
+    <form id="credentials">
+      <label>Username <input name="username" autocomplete="username" required minlength="3" maxlength="32"></label>
+      <label>Password <input name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128"></label>
+      <button type="submit" value="sign-in">Sign in</button><button type="submit" value="register">Register</button>
+    </form>
+  </section>
+  <main id="workspace" hidden>
+    <p><span id="identity"></span> <button id="sign-out">Sign out</button></p>
+    <section>
+      <h2>Your circles</h2>
+      <nav id="circle-list" aria-label="Your circles"></nav>
+      <div class="grid">
+        <form id="create">
+          <label>Circle name <input name="name" required maxlength="80"></label>
+          <label>Initial posting schedule <select name="schedule"><option value="daily">Daily</option><option value="weekly">Weekly</option></select></label>
+          <button>Create circle</button>
+        </form>
+        <form id="join">
+          <label>Invitation link or code <input name="invite" required></label>
+          <button>Join circle</button>
+        </form>
+      </div>
+    </section>
+    <section id="detail" hidden>
+      <h2 id="circle-title"></h2>
+      <p id="schedule-summary"></p>
+      <h3>Members</h3>
+      <ul id="members"></ul>
+      <button id="leave">Leave circle</button>
+      <div id="owner-tools" hidden>
+        <h3>Owner controls</h3>
+        <form id="schedule-form">
+          <label>Posting schedule <select name="schedule"><option value="daily">Daily</option><option value="weekly">Weekly</option></select></label>
+          <button>Save schedule</button>
+        </form>
+        <button id="invite">Create invitation link</button>
+        <label id="invite-box" hidden>New invitation link <input id="invite-link" readonly></label>
+        <ul id="invites"></ul>
+      </div>
+      <h3>Monthly timeline</h3>
+      <form id="month-form">
+        <label>Month (UTC) <input type="month" name="month" placeholder="YYYY-MM" required></label>
+        <button>Load month / refresh</button>
+      </form>
+      <form id="upload">
+        <label>Photo <input type="file" name="photo" accept="image/jpeg,image/png" required></label>
+        <label>Caption (optional) <input name="caption" maxlength="200"></label>
+        <button>Upload photo</button>
+      </form>
+      <div id="photos" class="grid"></div>
+    </section>
+  </main>
+</body>
+</html>

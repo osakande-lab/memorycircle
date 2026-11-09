@@ -49,7 +49,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.mjs",
     "typecheck": "tsc --noEmit",
     "build:web": "node scripts/export-web.mjs",
-    "preview": "node scripts/serve-web.mjs"
+    "preview": "node scripts/serve-web.mjs",
+    "circles": "node circles/server.mjs"
   },
   "private": true
 }

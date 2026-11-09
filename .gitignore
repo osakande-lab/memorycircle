@@ -48,3 +48,7 @@ node_modules.sdk57-backup/
 package-lock.sdk57-backup.json
 
 dist-reviewed/
+
+# Shared-circle demo database and SQLite journals
+/.circles-data/
+/.venv/
